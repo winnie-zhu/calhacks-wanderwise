@@ -5,10 +5,17 @@ import { Component } from "react";
 
 class TextBlock extends Component {
   render() {
+    let backgroundColor= "#AAAAAA";
+    if(this.props.type === "activity") {
+      backgroundColor = "#AA0000";
+    } else if(this.props.type === "food") {
+      backgroundColor = "#0000AA";
+    } else if(this.props.type === "airport") {
+      backgroundColor = "#00AA00";
+    }
     return (
-      <div className="text-box">
+      <div className="text-box" style={{backgroundColor: backgroundColor}}>
         <h2>{this.props.text}</h2>
-
       </div>
     )
   }
@@ -23,9 +30,16 @@ class ScrollContainer extends Component {
         <hr/>
         <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultricies tristique nulla aliquet enim tortor at auctor urna nunc."}/>
         <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam."}/>
+        <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam."}/>
+        <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam."}/>
+        <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam."}/>
+        <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam."}/>
         <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et aliquet incididunt tortor."}/>
+        <div className="price">
+          <h2>Price: </h2>
+        </div>
       </div>
-      <h2 className="price">Price: </h2>
+
     </div>
   );
  }

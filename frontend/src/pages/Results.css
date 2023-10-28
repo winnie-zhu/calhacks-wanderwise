@@ -18,12 +18,16 @@
 	max-width: 300px;
 	margin: 20px 10px;
 	box-shadow: 4px 7px rgb(126, 131, 131);
+	overflow: auto;
+	border-radius: 4px;
 }
 
 .text-box {
 	border: 2px;
 	border-color: black;
 	margin: 10px 0;
+	padding: 2px 5px;
+	border-radius: 5px;
 }
 
 .day-itinerary {
@@ -34,8 +38,7 @@
 }
 
 .price {
-	font-size: 14px;
-	margin: 10px;
+	font-size: 18px;
 }
 
 h1 {
