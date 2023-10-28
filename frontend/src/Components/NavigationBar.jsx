@@ -7,7 +7,7 @@ import { GoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
 function NavigationBar() {
   return (
     <>
-      <Navbar expand="lg" data-bs-theme="light">
+      <Navbar expand="lg" data-bs-theme="dark">
         <Link to="/" className="navbar-brand">
           <img src={logo} alt="imwdb logo" /> WanderWise
         </Link>
@@ -22,7 +22,7 @@ function NavigationBar() {
             console.log("Login Failed");
           }}
         /> */}
-        
+
       </Navbar>
     </>
   );
