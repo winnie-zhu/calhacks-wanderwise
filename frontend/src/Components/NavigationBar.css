@@ -1,0 +1,13 @@
+
+  img {
+    width: 40px;
+  }
+
+  .nav-link:hover {
+    color: #54677a !important;
+  }
+
+  .nav-bar>.container {
+    display: flex;
+    justify-content: flex-start;
+  }
