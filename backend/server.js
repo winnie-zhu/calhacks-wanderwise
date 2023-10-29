@@ -84,6 +84,10 @@ app.post("/itinerary", async function (req, res) {
   res.json(itinerary);
 });
 
+app.get("/itnerary", function (req, res) {
+  
+})
+
 // Run the API
 const port = 9000;
 app.listen(port, () => {

@@ -1,63 +1,44 @@
 import NavigationBar from "../Components/NavigationBar";
 import "../App.css";
-import './Results.css';
+import "./Results.css";
 import { Component } from "react";
+import TextBlock from "../Components/TextBlock";
+import DayCard from "../Components/DayCard";
 
-class TextBlock extends Component {
-  render() {
-    let backgroundColor= "#AAAAAA";
-    if(this.props.type === "activity") {
-      backgroundColor = "#AA0000";
-    } else if(this.props.type === "food") {
-      backgroundColor = "#0000AA";
-    } else if(this.props.type === "airport") {
-      backgroundColor = "#00AA00";
-    }
-    return (
-      <div className="text-box" style={{backgroundColor: backgroundColor}}>
-        <h2>{this.props.text}</h2>
-      </div>
-    )
-  }
-}
+const filler_text =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam.";
+const tempArr = [0, 1, 2, 3, 4, 5, 6, 7];
 
 class ScrollContainer extends Component {
- render() {
-  return (
-    <div className="scroll-container">
-       <div className="day-itinerary">
-        <h1>Day {this.props.day}</h1>
-        <hr/>
-        <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultricies tristique nulla aliquet enim tortor at auctor urna nunc."}/>
-        <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam."}/>
-        <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam."}/>
-        <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam."}/>
-        <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam."}/>
-        <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam."}/>
-        <TextBlock text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et aliquet incididunt tortor."}/>
-        <div className="price">
-          <h2>Price: </h2>
+  render() {
+    return (
+      <div className="scroll-container">
+        <div className="day-itinerary">
+          <h1>Day {this.props.day}</h1>
+          <hr />
+          <div>
+            {tempArr.map((id) => {
+              return <TextBlock text={filler_text} category="airport" />;
+            })}
+          </div>
+          <div className="price">
+            <h2>Price: </h2>
+          </div>
         </div>
       </div>
-
-    </div>
-  );
- }
+    );
+  }
 }
 
 function Results() {
   return (
     <>
-    <NavigationBar />
-    <div className="page-container">
-      <ScrollContainer day={1}/>
-      <ScrollContainer day={2}/>
-      <ScrollContainer day={3}/>
-      <ScrollContainer day={4}/>
-      <ScrollContainer day={5}/>
-      <ScrollContainer day={6}/>
-      <ScrollContainer day={7}/>
-    </div>
+      <NavigationBar />
+      <div className="page-container">
+        {tempArr.map((id) => {
+          return <DayCard day={id + 1} />;
+        })}
+      </div>
     </>
   );
 }
