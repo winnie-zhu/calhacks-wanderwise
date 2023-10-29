@@ -12,9 +12,9 @@ function DayCard({day, events}) {
             return <TextBlock key={id} text={id.description} category={id.category} />;
           })}
         </div>
-        <div className="price">
+        {/* <div className="price">
           <h2>Price: </h2>
-        </div>
+        </div> */}
       </div>
     </div>
   );
