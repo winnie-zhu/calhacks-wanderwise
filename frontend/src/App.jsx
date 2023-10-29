@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import Planning from "./pages/Planning";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import Results from "./pages/Results";
 
 function App() {
@@ -11,6 +12,10 @@ function App() {
     {
       path: "/",
       element: <Home />,
+    },
+    {
+      path: "/login",
+      element: <Login />
     },
     {
       path: "/planning",
