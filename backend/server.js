@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
 const dotenv = require("dotenv");
 
 const MindsDB = require("mindsdb-js-sdk").default;
@@ -18,61 +17,58 @@ const connectToMindsDB = async () => {
   }
 };
 
-const getItinerary = async (data) => {
-  // const database = await MindsDB.Databases.getDatabase("cockroachdb");
-  // database.getModel("openai", "project_itinerary");
-  const prompt = `Create a ${data.numDays}-day itinerary for ${data.location}`;
-  console.log("prompt", prompt);
-  const query = `INSERT INTO wwdb.questions (question)
-  VALUES ("${prompt}");`;
-  try {
-    const queryResult = await MindsDB.SQL.runQuery(query);
-    if (queryResult.rows.length > 0) {
-      const matchingUserRow = queryResult.rows[0];
-      // Do something with returned data.
-      // {
-      //   user: 'raw_unsafe_username',
-      //   email: 'useremail@gmail.com',
-      //   other_data: 9001,
-      //   ...
-      // }
+const convertAnswer = (itinerary) => {
+    const itineraryLines = itinerary.answer.split('\n');
+    const itineraryData = [];
+    let currentDay = null;
+
+    for (const line of itineraryLines) {
+        if (line.startsWith('Day ')) {
+            currentDay = {
+            day: line,
+            activities: [],
+            foodRecommendations: [],
+            };
+            itineraryData.push(currentDay);
+        } else if (line.startsWith('Activities:')) {
+            currentDay.activities = [];
+        } else if (line.startsWith('Food Recommendations:')) {
+            currentDay.foodRecommendations = [];
+        } else if (line.trim() !== '') {
+            const textWithoutNumbering = line.replace(/^\d+\.\s*/, ''); // Remove numbering
+            if (currentDay.activities.length < 4) {
+            currentDay.activities.push(textWithoutNumbering.trim());
+            } else {
+            currentDay.foodRecommendations.push(textWithoutNumbering.trim());
+            }
+        }
     }
-  } catch (error) {
-    // Something went wrong sending the API request or executing the query.
-    console.log(error);
-  }
 
-  const model = await MindsDB.Models.getModel("openai", "project_itinerary");
-  const queryOptions = {
-    where: [
-      `text_long = "Create a ${data.numDays}-day itinerary for ${data.location}"`,
-    ],
-  };
+    return itineraryData;
+};
 
-  const prediction = await model.query(queryOptions);
-  const x = await model.describe();
-  console.log("hello", x);
-
-  return prediction;
+const getItinerary = async (data) => {
+  const query =
+    `SELECT question, answer
+    FROM project_itinerary.openai
+    WHERE question = 'Create a ${data.numDays}-day itinerary for ${data.location}
+        separated by day with 4 activities and 3 food recommendations.'
+    USING max_tokens=3000;
+    `;
+    try {
+        const queryResult = await MindsDB.SQL.runQuery(query);
+        if (queryResult.rows.length > 0) {
+            const matchingUserRow = queryResult.rows[0];
+            return convertAnswer(matchingUserRow);
+        }
+    } catch (error) {
+}
+return query;
 };
 
 const app = express();
-// app.use(cors({ origin: "*" }));
-// app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(bodyParser.json());
-// app.use(function (req, res, next) {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Access-Control-Allow-Origin: *",
-//     "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization"
-//   );
-//   next();
-// });
 
 app.get("/", function (req, res) {
   return res.json("Hello world!");
@@ -85,16 +81,7 @@ app.post("/itinerary", async function (req, res) {
   await connectToMindsDB();
   console.log("connected to minds");
   let itinerary = await getItinerary(text);
-  //   console.log("Itinerary", itinerary);
-  //   res.json("hello in /itinerary");
-  // } catch (error) {
-  //   console.log(`Error: ${error}`);
-  //   res.json(error);
-  //   const allProjects = await MindsDB.Projects.getAllProjects();
-  //   allProjects.forEach((p) => {
-  //     console.log(p.name);
-  //   });
-  // }
+  res.json(itinerary);
 });
 
 // Run the API
