@@ -4,6 +4,7 @@ import "./Results.css";
 import { Component } from "react";
 import TextBlock from "../Components/TextBlock";
 import DayCard from "../Components/DayCard";
+import { useState, useEffect } from "react";
 
 const filler_text =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam.";
@@ -31,12 +32,29 @@ class ScrollContainer extends Component {
 }
 
 function Results() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:9000/itinerary")
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, []);
+
   return (
     <>
       <NavigationBar />
       <div className="page-container">
+        {console.log("data",data)}
+        {data !== null ? console.log(data[1][1].category) : null}
+        {/* {data !== null ?
+          data.forEach((day) => {
+            console.log(day)
+          })
+          :console.log("hello")
+        } */}
+        {/* {data !== null ?  console.log(Object.keys(data.json())) : null} */}
         {tempArr.map((id) => {
-          return <DayCard day={id + 1} />;
+          return <DayCard key={id} day={id + 1} />;
         })}
       </div>
     </>

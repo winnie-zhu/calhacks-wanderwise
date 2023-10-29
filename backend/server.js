@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const Sequelize = require("sequelize-cockroachdb");
+const cors = require("cors");
 
 const MindsDB = require("mindsdb-js-sdk").default;
 
@@ -93,7 +94,7 @@ const convertAnswer = (itinerary) => {
   for (const line of itineraryLines) {
     if (line.startsWith("Day ")) {
       currentDay = {
-        day: parseInt(line.replace(/\D/g, ''), 10),
+        day: parseInt(line.replace(/\D/g, ""), 10),
         activities: [],
         foodRecommendations: [],
       };
@@ -120,7 +121,7 @@ const getItinerary = async (data) => {
     FROM project_itinerary.openai
     WHERE question = 'Create a ${data.numDays}-day itinerary for ${data.location}
         separated by day with 4 activities and 3 food recommendations.'
-    USING max_tokens=3000;
+    USING max_tokens=2000;
     `;
   try {
     const queryResult = await MindsDB.SQL.runQuery(query);
@@ -135,16 +136,39 @@ const getItinerary = async (data) => {
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get("/", function (req, res) {
-  console.log(sequelize);
   return res.json("Hello world!");
 });
+
+app.get("/itinerary", async function (req, res) {
+  try {
+    const events = await Event.findAll();
+    console.log("events:", events);
+    const separatedData = events.reduce((result, item) => {
+      const dayNum = item.dayNum;
+
+      if (!result[dayNum]) {
+        result[dayNum] = [];
+      }
+
+      result[dayNum].push(item);
+      return result;
+    }, {});
+
+    res.json(separatedData);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 
 app.post("/itinerary", async function (req, res) {
   let text = req.body;
   console.log("req body:", text);
-  // try {
   await connectToMindsDB();
   console.log("connected to minds");
   let itinerary = await getItinerary(text);
@@ -156,6 +180,7 @@ app.post("/itinerary", async function (req, res) {
 
 const sendTrip = async (body) => {
   try {
+    await Trip.destroy({ where: {} });
     const cypher = await Trip.create({
       // trip_id: body.trip_id,
       numDays: body.numDays,
@@ -170,12 +195,14 @@ const sendTrip = async (body) => {
 
 const sendDayAndEvents = async (data) => {
   try {
+    await Day.destroy({ where: {} });
+    await Event.destroy({ where: {} });
     for (i = 0; i < data.length; i++) {
       const day6 = await Day.create({
         // trip_id: data.trip_id,
         dayNum: data[i].day,
       });
-      console.log("day:", day6);
+      // console.log("day:", day6);
 
       for (j = 0; j < data[i].activities.length; j++) {
         const event = await Event.create({
@@ -184,7 +211,7 @@ const sendDayAndEvents = async (data) => {
           description: data[i].activities[j],
           category: "activity",
         });
-        console.log("event:", event);
+        // console.log("event:", event);
       }
 
       for (k = 0; k < data[i].foodRecommendations.length; k++) {
@@ -194,7 +221,7 @@ const sendDayAndEvents = async (data) => {
           description: data[i].foodRecommendations[k],
           category: "food",
         });
-        console.log("event:", event);
+        // console.log("event:", event);
       }
     }
   } catch (error) {

@@ -12,7 +12,7 @@ function DayCard(props) {
         <hr />
         <div>
           {tempArr.map((id) => {
-            return <TextBlock text={filler_text} category="airport" />;
+            return <TextBlock key={id} text={filler_text} category="airport" />;
           })}
         </div>
         <div className="price">

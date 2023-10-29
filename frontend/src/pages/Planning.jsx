@@ -28,22 +28,31 @@ function Planning() {
     console.log(data);
 
     // Make a POST request to your backend API
-    fetch('/itinerary', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const requstOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-    })
+    };
+
+    fetch("http://localhost:9000/itinerary", requstOptions)
       .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data.message);
-        // setResponseMessage(data.message);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+      .then((data) => console.log("kfjdsklf",data));
   };
+  // fetch("http://localhost:9000/itinerary", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(data),
+  // })
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     console.log("Success:", data.message);
+  //     // setResponseMessage(data.message);
+  //   })
+  //   .catch((error) => {
+  //     console.error("Error:", error);
+  //   });
 
   return (
     <>
