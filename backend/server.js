@@ -101,7 +101,7 @@ const convertAnswer = (itinerary) => {
       itineraryData.push(currentDay);
     } else if (line.startsWith("Activities:")) {
       currentDay.activities = [];
-    } else if (line.startsWith("Food Recommendations:")) {
+    } else if (line.startsWith("Food recommendations:")) {
       currentDay.foodRecommendations = [];
     } else if (line.trim() !== "") {
       const textWithoutNumbering = line.replace(/^\d+\.\s*/, ""); // Remove numbering
