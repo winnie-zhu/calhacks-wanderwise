@@ -12,8 +12,8 @@ function Home() {
           <h2>A smart and simple way to plan your next trip.</h2>
         </div>
 
-        <Link to="/planning" className="home-content-item">
-          <button>Start Planning</button>
+        <Link to="/planning" className="home-content-item" style={{textDecoration: "none"}}>
+          <button className="btn-hover">Start Planning</button>
         </Link>
       </div>
     </>

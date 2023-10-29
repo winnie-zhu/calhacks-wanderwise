@@ -1,19 +1,19 @@
 .activity {
-    background-color: #add0bb;
+    background-color: #b3c9e7;
     opacity: .5;
 }
 
 .activity :hover {
-    background-color: #68967b;
+    background-color: #7993af;
 }
 
 .food {
-    background-color: #ffe5d9;
+    background-color: #ffd9fd;
     opacity: .5;
 }
 
 .food :hover {
-    background-color: #d9b2a0;
+    background-color: #d9a0cd;
 }
 
 
