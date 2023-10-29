@@ -99,12 +99,12 @@ const convertAnswer = (itinerary) => {
         foodRecommendations: [],
       };
       itineraryData.push(currentDay);
-    } else if (line.startsWith("Activities:")) {
+    } else if (line.toUpperCase().startsWith("ACTIVITIES:")) {
       currentDay.activities = [];
-    } else if (line.startsWith("Food recommendations:")) {
+    } else if (line.toUpperCase().startsWith("FOOD RECOMMENDATIONS:")) {
       currentDay.foodRecommendations = [];
     } else if (line.trim() !== "") {
-      const textWithoutNumbering = line.replace(/^\d+\.\s*/, ""); // Remove numbering
+      const textWithoutNumbering = line.replace(/^Activity \d+: /, '').replace(/^\d+\.\s*/, ""); // Remove numbering
       if (currentDay.activities.length < 4) {
         currentDay.activities.push(textWithoutNumbering.trim());
       } else {
