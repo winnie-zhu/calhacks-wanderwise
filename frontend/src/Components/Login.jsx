@@ -1,21 +1,35 @@
+import React, { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
+import "../App.css";
 
+function CustomGoogleLoginButton() {
+  const [userProfile, setUserProfile] = useState(null);
 
-function Login() {
+  const handleLoginSuccess = (credentialResponse) => {
+    const credentialResponseDecoded = jwtDecode(credentialResponse.credential);
+    const profileImage = credentialResponseDecoded.picture;
+    const name = credentialResponseDecoded.name;
+
+    setUserProfile({ profileImage, name });
+  };
+
+  const handleLoginError = () => {
+    console.log('Login failed');
+  };
+
   return (
-    <>
-    <GoogleLogin
-      onSuccess={credentialResponse => {
-        const credentialResponseDecoded = jwtDecode(credentialResponse.credential);
-        console.log("HERE:", credentialResponseDecoded);
-      }}
-      onError={() => {
-        console.log('Login Failed');
-      }}
-    />
-    </>
+    <div>
+      {userProfile ? (
+        <img id='profile-pic' src={userProfile.profileImage} />
+      ) : (
+        <GoogleLogin
+          onSuccess={handleLoginSuccess}
+          onError={handleLoginError}
+        />
+      )}
+    </div>
   );
 }
 
-export default Login;
+export default CustomGoogleLoginButton;
