@@ -97,7 +97,7 @@ const convertAnswer = (itinerary) => {
         activities: [],
         foodRecommendations: [],
       };
-      itineraryData.push(currentDay); 
+      itineraryData.push(currentDay);
     } else if (line.startsWith("Activities:")) {
       currentDay.activities = [];
     } else if (line.startsWith("Food Recommendations:")) {

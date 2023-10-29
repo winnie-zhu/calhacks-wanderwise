@@ -18,7 +18,7 @@ function Planning() {
     setNumberOfDays(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     const data = {
       destination: destination,
       numberOfDays: numberOfDays,
@@ -27,22 +27,22 @@ function Planning() {
     console.log("clicked");
     console.log(data);
 
-    // // Make a POST request to your backend API
-    // fetch('/api/your-endpoint', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log('Success:', data.message);
-    //     // setResponseMessage(data.message);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //   });
+    // Make a POST request to your backend API
+    fetch('/itinerary', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data.message);
+        // setResponseMessage(data.message);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   };
 
   return (

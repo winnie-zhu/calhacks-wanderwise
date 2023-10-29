@@ -1,0 +1,48 @@
+.activity {
+    background-color: #add0bb;
+    opacity: .5;
+}
+
+.activity :hover {
+    background-color: #68967b;
+}
+
+.food {
+    background-color: #ffe5d9;
+    opacity: .5;
+}
+
+.food :hover {
+    background-color: #d9b2a0;
+}
+
+
+.airport {
+    background-color: #acd8f4;
+    opacity: .5;
+}
+
+.airport :hover {
+    background-color: #749ab2;
+}
+
+.default {
+    background-color: #ced4da;
+    /* background-color: #4572a0; */
+    opacity: .5;
+}
+
+.default :hover {
+    background-color: #bac0c6;
+}
+
+.text-box {
+    cursor: pointer;
+	margin: 10px 0;
+	border-radius: 5px;
+}
+
+.text-content {
+    padding: 4px; 
+    border-radius: 5px;
+}
