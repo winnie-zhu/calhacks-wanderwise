@@ -1,18 +1,15 @@
 import TextBlock from "./TextBlock";
 
-
-const filler_text =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In nulla posuere sollicitudin aliquam.";
-const tempArr = [0, 1, 2, 3, 4, 5, 6, 7];
-function DayCard(props) {
+function DayCard({day, events}) {
   return (
     <div className="scroll-container">
       <div className="day-itinerary">
-        <h1>Day {props.day}</h1>
+        <h1>Day {day}</h1>
         <hr />
         <div>
-          {tempArr.map((id) => {
-            return <TextBlock key={id} text={filler_text} category="airport" />;
+          {events.map((id) => {
+            {console.log(id)}
+            return <TextBlock key={id} text={id.description} category={id.category} />;
           })}
         </div>
         <div className="price">

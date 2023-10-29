@@ -145,7 +145,7 @@ app.get("/", function (req, res) {
 app.get("/itinerary", async function (req, res) {
   try {
     const events = await Event.findAll();
-    console.log("events:", events);
+    // console.log("events:", events);
     const separatedData = events.reduce((result, item) => {
       const dayNum = item.dayNum;
 
