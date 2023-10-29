@@ -20,8 +20,8 @@ function Planning() {
 
   const handleSubmit = async (e) => {
     const data = {
-      destination: destination,
-      numberOfDays: numberOfDays,
+      numDays: numberOfDays,
+      location: destination,
     };
 
     console.log("clicked");
@@ -36,23 +36,9 @@ function Planning() {
 
     fetch("http://localhost:9000/itinerary", requstOptions)
       .then((response) => response.json())
-      .then((data) => console.log("kfjdsklf",data));
+      .then((data) => console.log(data));
   };
-  // fetch("http://localhost:9000/itinerary", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(data),
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     console.log("Success:", data.message);
-  //     // setResponseMessage(data.message);
-  //   })
-  //   .catch((error) => {
-  //     console.error("Error:", error);
-  //   });
+
 
   return (
     <>
